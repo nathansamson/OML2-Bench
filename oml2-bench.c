@@ -1,7 +1,9 @@
-#inlcude <oml2/omlc.h>
+#include <stdio.h>
+
+#include <oml2/omlc.h>
 
 int main(int argc, const char** argv) {
-	int result = omlc_init("OML2 Bench", &argc, argv, NULL):
+	int result = omlc_init("OML2 Bench", &argc, argv, 0);
 	int count = 10000;
 	if (result == -1) {
 		fprintf(stderr, "Could not initialize OML\n");
@@ -11,7 +13,7 @@ int main(int argc, const char** argv) {
 	OmlMPDef mp_def[] = {
 		{ "text", OML_STRING_VALUE },
 		{ "counter", OML_INT_VALUE }
-		{ NULL, (OmlValueT)0 },
+		{ 0, (OmlValueT)0 },
 	};
 	OmlMP* mp = omld_add_mp("log_info", mp_def);
 
