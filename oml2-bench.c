@@ -3,8 +3,22 @@
 
 #include <oml2/omlc.h>
 
+void print_help() {
+    printf("Usage: \n");
+    printf("oml2-bench /delay/ /count/\n");
+    
+    printf("  count: The number of messages to print (or send to OML).\n");
+    printf("  delay: Time in ms between two messages. If 0 it will sent it as fast as possible.\n");
+}
+
 int main(int argc, const char** argv) {
 	int result = omlc_init("OML2Bench", &argc, argv, 0);
+	
+	if (argc < 3) {
+	    print_help();
+	    return 1;
+	}
+	
 	uint64_t max_count = atoi(argv[2]);
 	uint64_t current_count = 0;
 	useconds_t delay = 1.0 / atoi(argv[1]) * 1000 * 1000;
@@ -37,7 +51,7 @@ int main(int argc, const char** argv) {
 		omlc_set_string(values[0], text);
 		omlc_set_uint64(values[1], current_count);
 		omlc_inject(mp, values);
-		usleep(delay);
+		if (delay != 0) usleep(delay);
 	}
 
 	omlc_close();
